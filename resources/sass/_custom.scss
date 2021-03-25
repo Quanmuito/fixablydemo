@@ -1,0 +1,26 @@
+#regForm {
+    background-color: #ffffff;
+    margin: auto;
+    font-family: Raleway;
+    padding: 40px;
+    width: 70%;
+    min-width: 300px;
+}
+
+h1 {
+    text-align: center;
+}
+
+.card-container {
+    margin-top: 50px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto;
+    grid-gap: 10px;
+}
+
+@media (max-width: 1024px) {
+    .card-container {
+        grid-template-columns: 1fr;
+    }
+}

@@ -150,7 +150,7 @@ class OrdersController extends Controller
         ->post();
 
         /** Handle error */
-        if ((str_contains($response, 'error'))) return redirect()->route('product.search')->with('error', json_decode($response)->error);
+        if ((str_contains($response, 'error'))) return redirect()->route('orders.search')->with('error', json_decode($response)->error);
 
         /** If response has data -> filter */
         $res = json_decode($response);
@@ -274,7 +274,7 @@ class OrdersController extends Controller
             ->post();
 
         $res = json_decode($response);
-        // return redirect()->route('product.show', $request['orderID'])->with('success', 'New note created.');
+        // return redirect()->route('orders.show', $request['orderID'])->with('success', 'New note created.');
         return $response;
         // Not working for now !!
     }

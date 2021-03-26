@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="container">
-    {!! Form::open(['action' => 'ProductsController@createHandle', 'method' => 'POST']) !!}
+    {!! Form::open(['action' => 'OrdersController@createHandle', 'method' => 'POST']) !!}
         <br>
         <h3 class="text-center">Order Detail</h3>
         <div class="mb-3">

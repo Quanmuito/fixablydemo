@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-{!! Form::open(['action' => 'ProductsController@invoicesHandle', 'method' => 'POST']) !!}
+{!! Form::open(['action' => 'InvoicesController@invoicesHandle', 'method' => 'POST']) !!}
     <div class="mb-3">
         {{ Form::label('from', 'Input start day', ['class' => 'form-label']) }}
         {{

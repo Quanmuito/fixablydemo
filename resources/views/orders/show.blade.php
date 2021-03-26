@@ -67,7 +67,7 @@
 
                 <!-- Modal body -->
                 <div class="modal-body">
-                    {!! Form::open(['action' => 'ProductsController@createNote', 'method' => 'POST']) !!}
+                    {!! Form::open(['action' => 'OrdersController@createNote', 'method' => 'POST']) !!}
                         <div class="mb-3">
                             {{ Form::label('type', 'Select a type', ['class' => 'form-label']) }}
                             {{

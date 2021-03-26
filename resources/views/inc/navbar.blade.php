@@ -17,11 +17,12 @@
                         <a class="nav-link" href={{ route('orders.search') }}>Search</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href={{ route('product.invoicesSearch') }}>List invoices</a>
+                        <a class="nav-link" href={{ route('orders.create')}}>Create</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href={{ route('product.create')}}>Create</a>
+                        <a class="nav-link" href={{ route('invoices.invoices') }}>List invoices</a>
                     </li>
+
                 </ul>
             </div>
         </div>

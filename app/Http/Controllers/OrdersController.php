@@ -218,4 +218,64 @@ class OrdersController extends Controller
             'fields' => $fields
         ]);
     }
+
+    /**
+     * Show the CREATE form.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    {
+        return view('orders.create');
+    }
+
+    /**
+     * Handle the create form.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function createHandle(Request $request)
+    {
+        $response = Curl::to($this->baseUrl . '/orders/create')
+            ->withHeaders( array( 'X-Fixably-Token' => $this->TOKEN ) )
+            ->withData( array(
+                'DeviceManufacturer' => $request['DeviceManufacturer'],
+                'DeviceBrand' => $request['DeviceBrand'],
+                'DeviceType' => $request['DeviceType']
+            ))
+            ->post();
+        $res = json_decode($response);
+
+        $response2 = Curl::to($this->baseUrl . '/orders/'. $res->id .'/notes/create')
+            ->withHeaders( array( 'X-Fixably-Token' => $this->TOKEN ) )
+            ->withData( array(
+                'Type' => $request['type'],
+                'Description' => $request['description']
+            ))
+            ->post();
+        $res2 = json_decode($response2);
+
+        return redirect()->route('orders.show', $res->id)->with('success', $res->message.". ".$res2->message);
+    }
+
+    /**
+     * Create new note for order.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function createNote(Request $request)
+    {
+        $response = Curl::to($this->baseUrl . '/orders/'. $request['orderID'] .'/notes/create')
+            ->withHeaders( array( 'X-Fixably-Token' => $this->TOKEN ) )
+            ->withData( array(
+                'Type' => $request['type'],
+                'Description' => $request['description']
+            ))
+            ->post();
+
+        $res = json_decode($response);
+        // return redirect()->route('product.show', $request['orderID'])->with('success', 'New note created.');
+        return $response;
+        // Not working for now !!
+    }
 }

@@ -86,7 +86,7 @@
                             }}
                         </div>
                         <input type="hidden" id="orderID" name="orderID" value={{$data->id}}>
-                        {{ Form::submit('Create', ['class' => 'btn btn-primary', 'disabled' => 'disabled']) }}
+                        {{ Form::submit('Create (disabled)', ['class' => 'btn btn-primary', 'disabled' => 'disabled']) }}
                     {!! Form::close() !!}
                 </div>
 

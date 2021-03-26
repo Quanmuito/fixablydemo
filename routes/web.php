@@ -17,9 +17,6 @@ Route::get('/', function() {
     return view('welcome');
 })->name('welcome');
 
-Route::get('/orders/pagination/{page}', 'ProductsController@index')->name('product.index');
-Route::get('/orders/show/{id}', 'ProductsController@show')->name('product.show');
-
 Route::get('/orders/search', 'ProductsController@search')->name('product.search');
 Route::post('/orders/search', 'ProductsController@searchHandle')->name('product.searchHandle');
 Route::get('/orders/search/{type}/{criteria}/pagination/{page}/{full}', 'ProductsController@searchResult')->name('product.searchResult');
@@ -32,3 +29,5 @@ Route::get('/invoices', 'ProductsController@invoicesSearch')->name('product.invo
 Route::post('/invoices', 'ProductsController@invoicesHandle')->name('product.invoicesHandle');
 Route::get('/invoices/{from}/{to}', 'ProductsController@invoices')->name('product.invoices');
 
+Route::get('/orders/pagination/{page}', 'OrdersController@index')->name('orders.index');
+Route::get('/orders/show/{id}', 'OrdersController@show')->name('orders.show');

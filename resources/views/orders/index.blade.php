@@ -38,7 +38,7 @@
                         <td>{{ ($data[$i]->technician) ? $data[$i]->technician : 'UNASSIGNED' }}</td>
                         <td>{{ $status[$data[$i]->status - 1]->description }}</td>
                         <td>
-                            <a class="btn btn-primary" href={{ route('product.show', $data[$i]->id) }} aria-label="View detail">
+                            <a class="btn btn-primary" href={{ route('orders.show', $data[$i]->id) }} aria-label="View detail">
                                 View detail
                             </a>
                         </td>
@@ -51,29 +51,29 @@
     <nav aria-label="Page navigation example">
         <ul class="pagination justify-content-center">
             <li class="page-item">
-                <a class="page-link" href={{ route('product.index', 1) }} aria-label="Previous">
+                <a class="page-link" href={{ route('orders.index', 1) }} aria-label="Previous">
                     <span aria-hidden="true">&laquo;&laquo;</span>
                 </a>
             </li>
             <li class="page-item">
-                <a class="page-link" href={{ route('product.index', $current - 1) }} aria-label="Previous">
+                <a class="page-link" href={{ route('orders.index', $current - 1) }} aria-label="Previous">
                     <span aria-hidden="true">&laquo;</span>
                 </a>
             </li>
 
             @for ($i = 0; $i < 10; $i++)
                 <li class="page-item">
-                    <a class="page-link" href={{ route('product.index', $current + $i) }}>{{$current + $i}}</a>
+                    <a class="page-link" href={{ route('orders.index', $current + $i) }}>{{$current + $i}}</a>
                 </li>
             @endfor
 
             <li class="page-item">
-                <a class="page-link" href={{ route('product.index', $current + 1) }} aria-label="Next">
+                <a class="page-link" href={{ route('orders.index', $current + 1) }} aria-label="Next">
                     <span aria-hidden="true">&raquo;</span>
                 </a>
             </li>
             <li class="page-item">
-                <a class="page-link" href={{ route('product.index', $pages) }} aria-label="Next">
+                <a class="page-link" href={{ route('orders.index', $pages) }} aria-label="Next">
                     <span aria-hidden="true">&raquo;&raquo;</span>
                 </a>
             </li>

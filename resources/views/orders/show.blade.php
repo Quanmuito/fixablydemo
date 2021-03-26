@@ -49,11 +49,10 @@
 <div class="container">
     <br>
     <br>
-    <!-- Button to Open the Modal -->
-    {{-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
+    <!-- Button to Open the Modal - Disabled -->
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
         Add new note
-    </button> --}}
-    {{-- Disabled --}}
+    </button>
 
     <!-- The Modal -->
     <div class="modal" id="myModal">
@@ -87,7 +86,7 @@
                             }}
                         </div>
                         <input type="hidden" id="orderID" name="orderID" value={{$data->id}}>
-                        {{ Form::submit('Create', ['class' => 'btn btn-primary']) }}
+                        {{ Form::submit('Create', ['class' => 'btn btn-primary', 'disabled' => 'disabled']) }}
                     {!! Form::close() !!}
                 </div>
 
@@ -100,11 +99,4 @@
         </div>
     </div>
 </div>
-
-@endsection
-
-@section('script')
-    <script>
-
-    </script>
 @endsection

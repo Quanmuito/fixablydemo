@@ -14,7 +14,7 @@
                         <a class="nav-link" href={{ route('orders.index', 1) }}>All Orders</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href={{ route('product.search') }}>Search</a>
+                        <a class="nav-link" href={{ route('orders.search') }}>Search</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href={{ route('product.invoicesSearch') }}>List invoices</a>

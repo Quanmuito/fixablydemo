@@ -38,7 +38,7 @@
                         <td>{{ ($data[$i]->technician) ? $data[$i]->technician : 'UNASSIGNED' }}</td>
                         <td>{{ $status[$data[$i]->status - 1]->description }}</td>
                         <td>
-                            <a class="btn btn-primary" href={{ route('product.show', $data[$i]->id) }} aria-label="View detail">
+                            <a class="btn btn-primary" href={{ route('orders.show', $data[$i]->id) }} aria-label="View detail">
                                 View detail
                             </a>
                         </td>
@@ -54,7 +54,7 @@
     <nav aria-label="Page navigation example">
         <ul class="pagination justify-content-center">
             <li class="page-item">
-                <a class="page-link" href={{ route('product.searchResult',[
+                <a class="page-link" href={{ route('orders.searchResult',[
                     'type' => $type,
                     'criteria' => $criteria,
                     'page' => 1,
@@ -64,7 +64,7 @@
                 </a>
             </li>
             <li class="page-item">
-                <a class="page-link" href={{ route('product.searchResult',[
+                <a class="page-link" href={{ route('orders.searchResult',[
                     'type' => $type,
                     'criteria' => $criteria,
                     'page' => $current - 1,
@@ -74,7 +74,7 @@
                 </a>
             </li>
             <li class="page-item">
-                <a class="page-link" href={{ route('product.searchResult',[
+                <a class="page-link" href={{ route('orders.searchResult',[
                     'type' => $type,
                     'criteria' => $criteria,
                     'page' => $current + 1,
@@ -84,7 +84,7 @@
                 </a>
             </li>
             <li class="page-item">
-                <a class="page-link" href={{ route('product.searchResult',[
+                <a class="page-link" href={{ route('orders.searchResult',[
                     'type' => $type,
                     'criteria' => $criteria,
                     'page' => $pages,

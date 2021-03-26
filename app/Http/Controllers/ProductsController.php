@@ -131,7 +131,7 @@ class ProductsController extends Controller
         ]);
     }
 
-     /**
+    /**
      * Display a listing of the resource.
      * @param  int  $page
      * @return \Illuminate\Http\Response

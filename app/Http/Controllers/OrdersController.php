@@ -78,4 +78,144 @@ class OrdersController extends Controller
             'status' => $this->STATUS
         ]);
     }
+
+    /**
+     * Show the form for SEARCH.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function search()
+    {
+        return view('orders.search');
+    }
+
+    /**
+     * Handle search form.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function searchHandle(Request $request)
+    {
+        $type = $request['type'];
+        $fields = (object) [];
+
+        foreach ($this->FIELDS as $item) {
+            $fields->{$item} = ($request[$item]) ? $request[$item] : '*';
+        }
+
+        if ($type == 'devices') {
+            if ($fields->device_type == '*' && $fields->manufacturer == '*') $criteria = '*';
+            if ($fields->device_type == '*' && $fields->manufacturer != '*') $criteria = $fields->manufacturer;
+            if ($fields->device_type != '*' && $fields->manufacturer == '*') $criteria = $fields->device_type;
+            if ($fields->device_type != '*' && $fields->manufacturer != '*') $criteria = $fields->manufacturer;
+        } else {
+            $criteria = $fields->{$type};
+        }
+
+        $full = 'full';
+        foreach ($fields as $item) {
+            if ($item == $criteria) {
+                $full = $full.'&*';
+                continue;
+            };
+            $full = $full.'&'.$item;
+        }
+
+        return redirect()->route('orders.searchResult', [
+            'type' => $type,
+            'criteria' => $criteria,
+            'page' => 1,
+            'full' => $full
+        ]);
+    }
+
+     /**
+     * Display a listing of the resource.
+     * @param  int  $page
+     * @return \Illuminate\Http\Response
+     */
+    public function searchResult($type, $criteria, $page, $full)
+    {
+        /** Disable search by notes */
+        if ($type == 'notes') return redirect()->route('orders.search')->with('error', 'Search by "Notes" is currently disabled.');
+
+        /** Get inital result */
+        if ($page == 0) $page++;
+        $response = Curl::to($this->baseUrl . '/search/' . $type . '?page=' . $page)
+        ->withHeaders( array( 'X-Fixably-Token' => $this->TOKEN ) )
+        ->withData( array(
+            'Criteria' => $criteria,
+        ))
+        ->post();
+
+        /** Handle error */
+        if ((str_contains($response, 'error'))) return redirect()->route('product.search')->with('error', json_decode($response)->error);
+
+        /** If response has data -> filter */
+        $res = json_decode($response);
+        $pages = floor($res->total / 10) + 1;
+        $data = $res->results;
+
+        /** Prepare for filter */
+        $fields = preg_split('[&]', $full, -1);
+        $fieldsProp = ['full', 'deviceType', 'deviceManufacturer', 'status', 'technician', 'notes'];
+        $data_filter = [[], [], [], [], [], []];
+
+        /** Expected flow: get result -> filter -> if not enough for 1 page -> get result -> filter -> return */
+
+        while(count($data_filter[4]) < 10) {
+            $page++;
+
+            /** End loop when over maximum page */
+            if ($page > $pages) break;
+
+            /** Keep getting data */
+            $response = Curl::to($this->baseUrl . '/search/' . $type . '?page=' . $page)
+            ->withHeaders( array( 'X-Fixably-Token' => $this->TOKEN ) )
+            ->withData( array(
+                'Criteria' => $criteria,
+            ))
+            ->post();
+
+            /**  If error -> break, otherwise continue */
+            if ((str_contains($response, 'error'))) break;
+            $data = array_merge($data, json_decode($response)->results);
+            $data_filter[0] = $data;
+
+            /** Filter */
+            for ($j = 1; $j < count($fields) - 1; $j++) {
+                if ($fields[$j] == '*') {
+                    $data_filter[$j] = $data_filter[$j - 1];
+                    continue;
+                };
+
+                $prop = $fieldsProp[$j];
+                $keyword = $fields[$j];
+                $arr = $data_filter[$j - 1];
+
+                if ($keyword == 'required') {
+                    for ($i = 0; $i < count($arr); $i++) {
+                        if ($arr[$i]->{$prop} != null) array_push($data_filter[$j], $arr[$i]);
+                    }
+                } else {
+                    for ($i = 0; $i < count($arr); $i++) {
+                        if ($arr[$i]->{$prop} == $keyword) array_push($data_filter[$j], $arr[$i]);
+                    }
+                }
+            }
+        }
+
+        return view('orders.searchResult')->with([
+            'title' => 'Search results',
+            'data' => $data_filter[4], // disabled for sort by notes, otherwise return [5]
+            'current' => $page,
+            'pages' => $pages,
+            'status' => $this->STATUS,
+            'type' => $type,
+            'criteria' => $criteria,
+            'full' => $full,
+            'fields' => $fields
+        ]);
+    }
 }

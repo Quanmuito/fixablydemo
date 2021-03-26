@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-{!! Form::open(['action' => 'ProductsController@searchHandle', 'method' => 'POST']) !!}
+{!! Form::open(['action' => 'OrdersController@searchHandle', 'method' => 'POST']) !!}
     <div class="mb-3">
         {{ Form::label('type', 'Select a search type', ['class' => 'form-label']) }}
         {{
@@ -31,7 +31,7 @@
                         {{
                             Form::select(
                                 'device_type',
-                                ['Laptop' => 'Laptop', 'Tablet' => 'Tablet', 'Phone' => 'Phone'],
+                                ['*' => 'All', 'required' => 'Required', 'Laptop' => 'Laptop', 'Tablet' => 'Tablet', 'Phone' => 'Phone'],
                                 'Phone',
                                 ['class' => 'form-select']
                             )
@@ -41,7 +41,7 @@
                         {{
                             Form::select(
                                 'manufacturer',
-                                ['Sony' => 'Sony', 'Samsung' => 'Samsung', 'Apple' => 'Apple'],
+                                ['*' => 'All', 'required' => 'Required', 'Sony' => 'Sony', 'Samsung' => 'Samsung', 'Apple' => 'Apple'],
                                 'Apple',
                                 ['class' => 'form-select']
                             )
@@ -50,7 +50,7 @@
                     <td>{{
                             Form::select(
                                 'statuses',
-                                ['Open' => 'Open', 'Closed' => 'Closed', 'Assigned' => 'Assigned', 'Unpaid' => 'Unpaid'],
+                                ['*' => 'All', 'required' => 'Required', 'Open' => 'Open', 'Closed' => 'Closed', 'Assigned' => 'Assigned', 'Unpaid' => 'Unpaid'],
                                 '*',
                                 ['class' => 'form-select']
                             )
